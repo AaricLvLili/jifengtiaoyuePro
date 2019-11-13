@@ -1,1 +1,410 @@
-var c=window.egret,d=this&&this.__reflect||function(e,t,i){e.__class__=t,i?i.push(t):i=[t],e.__types__=e.__types__?i.concat(e.__types__):i},h=this&&this.__extends||function(e,t){function i(){this.constructor=e}for(var r in t)t.hasOwnProperty(r)&&(e[r]=t[r]);i.prototype=t.prototype,e.prototype=new i},m=function(){function e(){this.skinClass={},this.euiNormalizeNames={$eBL:"eui.BitmapLabel",$eB:"eui.Button",$eCB:"eui.CheckBox",$eC:"eui.Component",$eDG:"eui.DataGroup",$eET:"eui.EditableText",$eG:"eui.Group",$eHL:"eui.HorizontalLayout",$eHSB:"eui.HScrollBar",$eHS:"eui.HSlider",$eI:"eui.Image",$eL:"eui.Label",$eLs:"eui.List",$eP:"eui.Panel",$ePB:"eui.ProgressBar",$eRB:"eui.RadioButton",$eRBG:"eui.RadioButtonGroup",$eRa:"eui.Range",$eR:"eui.Rect",$eRAl:"eui.RowAlign",$eS:"eui.Scroller",$eT:"eui.TabBar",$eTI:"eui.TextInput",$eTL:"eui.TileLayout",$eTB:"eui.ToggleButton",$eTS:"eui.ToggleSwitch",$eVL:"eui.VerticalLayout",$eV:"eui.ViewStack",$eVSB:"eui.VScrollBar",$eVS:"eui.VSlider",$eSk:"eui.Skin"}}return e.prototype.setData=function(e){if(this.json)for(var t in this.parseSkinMap(e),e)this.json[t]=e[t];else this.json=e,this.parseSkinMap(this.json)},e.prototype.generateSkinClass=function(e,t,i){if(!e)return null;for(var r=i.split("."),s=window,n=0,a=r;n<a.length;n++){var o=a[n];s=s[o]}function l(){s.call(this),window.JSONParseClass.create(t,this)}return h(l,s),d(l,t,[i]),l},e.prototype.parseSkinMap=function(e){var t={};for(var i in e){var r=e[i];if(r){for(var s=i.split("."),n=window,a=0,o=s;a<o.length;a++){var l=o[a],u=n;l!==s[s.length-1]&&null==(n=n[l])&&(n={},u[l]=n)}var c=null==this.euiNormalizeNames[r.$sC]?r.$sC:this.euiNormalizeNames[r.$sC];t[i]=n[s[s.length-1]]=this.generateSkinClass(r,i,c),e[i].$path&&(generateEUI2.paths[e[i].$path]=t[i])}}return t},e.prototype.create=function(e,t){if(!this.json)return console.log("Missing json defined by eui resource, please modify the theme adapter"),void console.log("缺少eui资源定义的json，请修改主题适配器");this.target=t,this.skinName=e,this.skinClass=this.json[e],this.applyBase(),this.applySkinParts(),this.applyState(),this.applyBinding(),null==this.skinClass.$sP?this.target.skinParts=[]:this.target.skinParts=this.skinClass.$sP},e.prototype.applySkinParts=function(){if(null!=this.skinClass.$sP)for(var e=0,t=this.skinClass.$sP;e<t.length;e++){var i=t[e];null==this.target[i]&&this.createElementContentOrViewport(i)}},e.prototype.applyBase=function(){null!=this.skinClass.$bs&&this.addCommonProperty("$bs",this.target)},e.prototype.createElementContentOrViewport=function(e){var t,i=this.getNormalizeEuiName(this.skinClass[e].$t);if("egret.tween.TweenGroup"==i)t=this.creatsEgretTweenGroup(e);else{var r=c.getDefinitionByName(i);this.$createNewObject(function(){t=new r}),this.addCommonProperty(e,t)}return this.target[e]=t},e.prototype.$createNewObject=function(e){var t=this.skinName,i=this.target;e(),this.skinName=t,this.skinClass=this.json[this.skinName],this.target=i},e.prototype.creatsEgretTweenGroup=function(e){for(var t=this.createTypeObject(e),i=[],r=0,s=this.skinClass[e].items;r<s.length;r++){var n=s[r];i.push(this.createEgretTweenItem(n))}return t.items=i,t},e.prototype.createEgretTweenItem=function(n){var a=this,o=this.createTypeObject(n),l=[],e=function(e){var t=u.skinClass[n][e];if("$t"==e||"target"==e);else if("paths"==e)for(var i=0,r=t;i<r.length;i++){var s=r[i];l.push(u.createSetOrTo(s))}else"target"==e?u.$createNewObject(function(){o[e]=a.createElementContentOrViewport(t),a.target[t]=o[e]}):o[e]=t},u=this;for(var t in this.skinClass[n])e(t);return o.paths=l,this.target[n]=o},e.prototype.createSetOrTo=function(e){var t=this.createTypeObject(e);for(var i in this.skinClass[e]){var r=this.skinClass[e][i];"$t"==i||"target"==i||("props"==i?(t[i]=this.createObject(r),this.target[r]=t[i]):t[i]=r)}return t},e.prototype.createObject=function(e){var t={};for(var i in this.skinClass[e])"$t"==i||"target"==i||(t[i]=this.skinClass[e][i]);return t},e.prototype.addCommonProperty=function(e,a){var t,i,r=function(s){var n=o.skinClass[e][s];"$t"==s||("layout"==s?a[s]=o.createLayout(n):"$eleC"==s?t=n:"$sId"==s?i=n:"scale9Grid"==s?a[s]=o.getScale9Grid(n):"skinName"==s?o.$createNewObject(function(){a[s]=n}):"itemRendererSkinName"==s?o.$createNewObject(function(){for(var e=n.split("."),t=window,i=0,r=e;i<r.length;i++){t=t[r[i]]}a[s]=t}):a[s]="itemRenderer"==s?c.getDefinitionByName(n):"dataProvider"==s?o.createDataProvider(n):"viewport"==s?o.createElementContentOrViewport(n):n)},o=this;for(var s in this.skinClass[e])r(s);var n=[];if(t&&0<t.length)for(var l=0,u=t;l<u.length;l++){var h=u[l],p=this.createElementContentOrViewport(h);n.push(p)}if(a.elementsContent=n,i&&0<i.length)for(var k=0,m=i;k<m.length;k++){h=m[k];this.createElementContentOrViewport(h)}return a},e.prototype.createLayout=function(e){var t=this.createTypeObject(e),i=this.skinClass[e];for(var r in i)"$t"!==r&&(t[r]=i[r]);return this.target[e]=t},e.prototype.applyState=function(){if(null!=this.skinClass.$s){var e=[];for(var t in this.skinClass.$s){var i=[],r=this.skinClass.$s[t];if(r.$saI)for(var s=0,n=r.$saI;s<n.length;s++){var a=n[s];i.push(new eui.AddItems(a.target,a.property,a.position,a.relativeTo))}if(r.$ssP)for(var o=0,l=r.$ssP;o<l.length;o++){if((a=l[o]).name){var u=a.value;"scale9Grid"==a.name&&(u=this.getScale9Grid(a.value)),i.push(new eui.SetProperty(a.target,a.name,u))}else i.push(new eui.SetStateProperty(this.target,a.templates,a.chainIndex,this.target[a.target],a.property))}e.push(new eui.State(t,i))}this.target.states=e}},e.prototype.applyBinding=function(){if(null!=this.skinClass.$b)for(var e=0,t=this.skinClass.$b;e<t.length;e++){var i=t[e];void 0!==i.$bc?eui.Binding.$bindProperties(this.target,i.$bd,i.$bc,this.target[i.$bt],i.$bp):eui.Binding.bindProperty(this.target,i.$bd[0].split("."),this.target[i.$bt],i.$bp)}},e.prototype.createDataProvider=function(e){if(""!=e){for(var t=this.createTypeObject(e),i=[],r=0,s=this.skinClass[e].source;r<s.length;r++){var n=s[r];i.push(this.createItemRender(n))}return t.source=i,t}},e.prototype.createItemRender=function(e){var t=this.createTypeObject(e);for(var i in this.skinClass[e])"$t"!=i&&(t[i]=this.skinClass[e][i]);return t},e.prototype.getNormalizeEuiName=function(e){return this.euiNormalizeNames[e]?this.euiNormalizeNames[e]:e},e.prototype.createTypeObject=function(e){var t=this.getNormalizeEuiName(this.skinClass[e].$t);return new(c.getDefinitionByName(t))},e.prototype.getScale9Grid=function(e){var t=e.split(",");return new c.Rectangle(parseFloat(t[0]),parseFloat(t[1]),parseFloat(t[2]),parseFloat(t[3]))},e}();window.JSONParseClass=new m,window.generateEUI2=window.generateEUI2||{},generateEUI2.paths=generateEUI2.paths||{},generateEUI2.styles=void 0,generateEUI2.skins={DropDown:"resource/eui_skins/dropdown/DropDownSkin.exml",ActorName:"resource/eui_skins/ActorNameSkin.exml",EncounterInfoItem:"resource/skins/zaoYu/ZaoYuInfoItemSkin.exml",FBChallengePanel:"resource/skins/fb/ChallengeFbSkin.exml",FbItem:"resource/skins/fb/DailyFbItemSkin.exml",GuanQiaEfficiencyPanel:"resource/skins/checkReward/CheckInfoSkin.exml",GuanQiaRewardPanel:"resource/skins/checkReward/GuanqiajiangliSkin.exml",ItemBase:"resource/skins/bag/ItemSkin.exml",ItemIcon:"resource/skins/bag/ItemIconSkin.exml",JingMaiPanel:"resource/skins/jinmai/JinMaiSkin.exml",LadderStarListView:"resource/skins/competition/LadderSratListSkin.exml",LadderStarView:"resource/skins/competition/LadderSratSkin.exml",PriceIcon:"resource/eui_skins/PriceIconSkin.exml",RoleInfoItem:"resource/skins/roleWin/RoleInfoItemSkin.exml",RoleInfoPanel:"resource/skins/roleWin/RoleInfoSkin.exml",RoleItem:"resource/skins/bag/ItemSkin.exml",RoleSelectPanel:"resource/skins/roleWin/RoleSelectPanelSkin.exml",SkillPanel:"resource/skins/skill/SkillSkin.exml",WingPanel:"resource/skins/wing/WingSkin.exml",ZhuZaiEquipGrowPanel:"resource/skins/zhuzai/ZhuzaiEquipPromoteSkin.exml",ZhuZaiFenjiePanel:"resource/skins/zhuzai/ZhuzaiEquipDecomSkin.exml",ZhuzaiEquipAdvancePanel:"resource/skins/zhuzai/ZhuzaiEquipAdvanceSkin.exml",ZsPanel:"resource/skins/zs/ZsPanelSkin.exml","eui.Button":"resource/eui_skins/ButtonSkin.exml","eui.CheckBox":"resource/eui_skins/CheckBoxSkin.exml","eui.HScrollBar":"resource/eui_skins/HScrollBarSkin.exml","eui.HSlider":"resource/eui_skins/HSliderSkin.exml","eui.ItemRenderer":"resource/eui_skins/ItemRendererSkin.exml","eui.Panel":"resource/eui_skins/PanelSkin.exml","eui.ProgressBar":"resource/eui_skins/ProgressBarSkin.exml","eui.RadioButton":"resource/eui_skins/RadioButtonSkin.exml","eui.Scroller":"resource/eui_skins/ScrollerSkin.exml","eui.TextInput":"resource/eui_skins/TextInputSkin.exml","eui.ToggleSwitch":"resource/eui_skins/ToggleSwitchSkin.exml","eui.VScrollBar":"resource/eui_skins/VScrollBarSkin.exml","eui.VSlider":"resource/eui_skins/VSliderSkin.exml",CommonWindowBg:"resource/eui_skins/CommonWindowBgSkin.exml",PowerLabel:"resource/eui_skins/PowerLabelSkin.exml",CircleRunView:"resource/skins/forge/CircleRunSkin.exml",CommonDialog:"resource/eui_skins/CommonDialogSkin.exml",StarList:"resource/eui_skins/StarListSkin.exml",AttrLabel:"resource/eui_skins/AttrLabelSkin.exml",ConsumeLabel:"resource/eui_skins/ConsumeLabelSkin.exml",SimpleRankPanel:"resource/eui_skins/SimpleRankPanelSkin.exml",RoleShowPanel:"resource/eui_skins/RoleShowPanelSkin.exml",GetwayLabel:"resource/eui_skins/GetwayLabelSkin.exml",LadderLevelIcon:"resource/skins/competition/LadderLevelIconSkin.exml"};
+var egret = window.egret;var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = this && this.__extends || function __extends(t, e) {
+    function r() {
+        this.constructor = t;
+    }
+    for (var i in e)
+        e.hasOwnProperty(i) && (t[i] = e[i]);
+    r.prototype = e.prototype, t.prototype = new r();
+};
+var JSONParseClass = /** @class */ (function () {
+    function JSONParseClass() {
+        this.skinClass = {};
+        this.euiNormalizeNames = {
+            "$eBL": "eui.BitmapLabel",
+            "$eB": "eui.Button",
+            "$eCB": "eui.CheckBox",
+            "$eC": "eui.Component",
+            "$eDG": "eui.DataGroup",
+            "$eET": "eui.EditableText",
+            "$eG": "eui.Group",
+            "$eHL": "eui.HorizontalLayout",
+            "$eHSB": "eui.HScrollBar",
+            "$eHS": "eui.HSlider",
+            "$eI": "eui.Image",
+            "$eL": "eui.Label",
+            "$eLs": "eui.List",
+            "$eP": "eui.Panel",
+            "$ePB": "eui.ProgressBar",
+            "$eRB": "eui.RadioButton",
+            "$eRBG": "eui.RadioButtonGroup",
+            "$eRa": "eui.Range",
+            "$eR": "eui.Rect",
+            "$eRAl": "eui.RowAlign",
+            "$eS": "eui.Scroller",
+            "$eT": "eui.TabBar",
+            "$eTI": "eui.TextInput",
+            "$eTL": "eui.TileLayout",
+            "$eTB": "eui.ToggleButton",
+            "$eTS": "eui.ToggleSwitch",
+            "$eVL": "eui.VerticalLayout",
+            "$eV": "eui.ViewStack",
+            "$eVSB": "eui.VScrollBar",
+            "$eVS": "eui.VSlider",
+            "$eSk": "eui.Skin"
+        };
+    }
+    JSONParseClass.prototype.setData = function (data) {
+        if (!this.json) {
+            this.json = data;
+            this.parseSkinMap(this.json);
+        }
+        else {
+            this.parseSkinMap(data);
+            for (var a in data) {
+                this.json[a] = data[a];
+            }
+        }
+    };
+    JSONParseClass.prototype.generateSkinClass = function (skinData, className, superName) {
+        if (!skinData)
+            return null;
+        var paths = superName.split(".");
+        var target = window;
+        for (var _i = 0, paths_1 = paths; _i < paths_1.length; _i++) {
+            var p = paths_1[_i];
+            target = target[p];
+        }
+        function __SkinClass() {
+            target.call(this);
+            window["JSONParseClass"].create(className, this);
+        }
+        __extends(__SkinClass, target);
+        __reflect(__SkinClass, className, [superName]);
+        return __SkinClass;
+    };
+    JSONParseClass.prototype.parseSkinMap = function (skinMap) {
+        var skinResult = {};
+        for (var exml in skinMap) {
+            var skinData = skinMap[exml];
+            if (!skinData)
+                continue;
+            var paths = exml.split(".");
+            var target = window;
+            for (var _i = 0, paths_2 = paths; _i < paths_2.length; _i++) {
+                var p = paths_2[_i];
+                var parent = target;
+                if (p !== paths[paths.length - 1]) {
+                    target = target[p];
+                    if (target == undefined) {
+                        target = {};
+                        parent[p] = target;
+                    }
+                }
+            }
+            var superName = this.euiNormalizeNames[skinData["$sC"]] == undefined ? skinData["$sC"] : this.euiNormalizeNames[skinData["$sC"]];
+            skinResult[exml] = target[paths[paths.length - 1]] = this.generateSkinClass(skinData, exml, superName);
+            if (skinMap[exml]["$path"]) {
+                generateEUI2["paths"][skinMap[exml]["$path"]] = skinResult[exml];
+            }
+        }
+        return skinResult;
+    };
+    JSONParseClass.prototype.create = function (skinName, target) {
+        if (!this.json) {
+            console.log("Missing json defined by eui resource, please modify the theme adapter");
+            console.log("缺少eui资源定义的json，请修改主题适配器");
+            return;
+        }
+        /** 先解析对应名字的的 */
+        this.target = target;
+        this.skinName = skinName;
+        this.skinClass = this.json[skinName];
+        //开始生成
+        this.applyBase();
+        this.applySkinParts();
+        this.applyState();
+        this.applyBinding();
+        //skinParts 只能最后赋值，在comp中引用问题
+        if (this.skinClass["$sP"] == undefined)
+            this.target["skinParts"] = [];
+        else
+            this.target["skinParts"] = this.skinClass["$sP"];
+    };
+    JSONParseClass.prototype.applySkinParts = function () {
+        if (this.skinClass["$sP"] == undefined)
+            return;
+        for (var _i = 0, _a = this.skinClass["$sP"]; _i < _a.length; _i++) {
+            var component = _a[_i];
+            if (this.target[component] == undefined)
+                this.createElementContentOrViewport(component);
+        }
+    };
+    JSONParseClass.prototype.applyBase = function () {
+        if (this.skinClass["$bs"] == undefined)
+            return;
+        this.addCommonProperty("$bs", this.target);
+    };
+    JSONParseClass.prototype.createElementContentOrViewport = function (component) {
+        var result;
+        var typeStr = this.getNormalizeEuiName(this.skinClass[component].$t);
+        if (typeStr == "egret.tween.TweenGroup") {
+            result = this.creatsEgretTweenGroup(component);
+        }
+        else {
+            /** 有可能对象是从外面一定义的皮肤 */
+            var type_1 = egret.getDefinitionByName(typeStr);
+            this.$createNewObject(function () {
+                result = new type_1();
+            });
+            this.addCommonProperty(component, result);
+        }
+        this.target[component] = result;
+        return result;
+    };
+    /**
+     * 生成单位，有可能会跳出当前皮肤，所以统一维护target和skin
+     * @param callback 创建对象的真实逻辑
+     */
+    JSONParseClass.prototype.$createNewObject = function (callback) {
+        var skinName = this.skinName;
+        var target = this.target;
+        callback();
+        this.skinName = skinName;
+        this.skinClass = this.json[this.skinName];
+        this.target = target;
+    };
+    /**
+     * 生成对应的缓动组
+     * @param component 名字索引
+     */
+    JSONParseClass.prototype.creatsEgretTweenGroup = function (component) {
+        var result = this.createTypeObject(component);
+        var items = [];
+        for (var _i = 0, _a = this.skinClass[component]["items"]; _i < _a.length; _i++) {
+            var item = _a[_i];
+            items.push(this.createEgretTweenItem(item));
+        }
+        result["items"] = items;
+        return result;
+    };
+    /**
+     * 生成对应的缓动单位
+     * @param tweenItem 名字索引
+     */
+    JSONParseClass.prototype.createEgretTweenItem = function (tweenItem) {
+        var _this = this;
+        var result = this.createTypeObject(tweenItem);
+        var paths = [];
+        var _loop_1 = function (prop) {
+            var property = this_1.skinClass[tweenItem][prop];
+            if (prop == "$t" || prop == "target") {
+            }
+            else if (prop == "paths") {
+                for (var _i = 0, property_1 = property; _i < property_1.length; _i++) {
+                    var path = property_1[_i];
+                    paths.push(this_1.createSetOrTo(path));
+                }
+            }
+            else if (prop == "target") {
+                this_1.$createNewObject(function () {
+                    result[prop] = _this.createElementContentOrViewport(property);
+                    _this.target[property] = result[prop];
+                });
+            }
+            else {
+                result[prop] = property;
+            }
+        };
+        var this_1 = this;
+        for (var prop in this.skinClass[tweenItem]) {
+            _loop_1(prop);
+        }
+        result["paths"] = paths;
+        this.target[tweenItem] = result;
+        return result;
+    };
+    JSONParseClass.prototype.createSetOrTo = function (key) {
+        var result = this.createTypeObject(key);
+        for (var prop in this.skinClass[key]) {
+            var property = this.skinClass[key][prop];
+            if (prop == "$t" || prop == "target") {
+            }
+            else if (prop == "props") {
+                result[prop] = this.createObject(property);
+                this.target[property] = result[prop];
+            }
+            else {
+                result[prop] = property;
+            }
+        }
+        return result;
+    };
+    JSONParseClass.prototype.createObject = function (name) {
+        var result = {};
+        for (var prop in this.skinClass[name]) {
+            if (prop == "$t" || prop == "target") {
+            }
+            else {
+                result[prop] = this.skinClass[name][prop];
+            }
+        }
+        return result;
+    };
+    JSONParseClass.prototype.addCommonProperty = function (componentName, target) {
+        var eleC;
+        var sId;
+        var _loop_2 = function (prop) {
+            var property = this_2.skinClass[componentName][prop];
+            if (prop == "$t") {
+            }
+            else if (prop == "layout") {
+                target[prop] = this_2.createLayout(property);
+            }
+            else if (prop == "$eleC") {
+                eleC = property;
+            }
+            else if (prop == "$sId") {
+                sId = property;
+            }
+            else if (prop == "scale9Grid") {
+                target[prop] = this_2.getScale9Grid(property);
+            }
+            else if (prop == "skinName") {
+                this_2.$createNewObject(function () {
+                    target[prop] = property;
+                });
+            }
+            else if (prop == "itemRendererSkinName") {
+                this_2.$createNewObject(function () {
+                    var dirPath = property.split(".");
+                    var t = window;
+                    for (var _i = 0, dirPath_1 = dirPath; _i < dirPath_1.length; _i++) {
+                        var p = dirPath_1[_i];
+                        t = t[p];
+                    }
+                    target[prop] = t;
+                });
+            }
+            else if (prop == "itemRenderer") {
+                target[prop] = egret.getDefinitionByName(property);
+            }
+            else if (prop == "dataProvider") {
+                target[prop] = this_2.createDataProvider(property);
+            }
+            else if (prop == "viewport") {
+                target[prop] = this_2.createElementContentOrViewport(property);
+            }
+            else {
+                target[prop] = property;
+            }
+        };
+        var this_2 = this;
+        for (var prop in this.skinClass[componentName]) {
+            _loop_2(prop);
+        }
+        var ele = [];
+        if (eleC && eleC.length > 0) {
+            for (var _i = 0, eleC_1 = eleC; _i < eleC_1.length; _i++) {
+                var element = eleC_1[_i];
+                var e = this.createElementContentOrViewport(element);
+                ele.push(e);
+            }
+        }
+        target["elementsContent"] = ele;
+        if (sId && sId.length > 0) {
+            for (var _a = 0, sId_1 = sId; _a < sId_1.length; _a++) {
+                var element = sId_1[_a];
+                this.createElementContentOrViewport(element);
+            }
+        }
+        return target;
+    };
+    JSONParseClass.prototype.createLayout = function (componentName) {
+        var result = this.createTypeObject(componentName);
+        var component = this.skinClass[componentName];
+        for (var property in component) {
+            if (property !== "$t") {
+                result[property] = component[property];
+            }
+        }
+        this.target[componentName] = result;
+        return result;
+    };
+    JSONParseClass.prototype.applyState = function () {
+        if (this.skinClass["$s"] == undefined)
+            return;
+        var states = [];
+        for (var state in this.skinClass["$s"]) {
+            var setProperty = [];
+            var tempState = this.skinClass["$s"][state];
+            if (tempState["$saI"]) {
+                for (var _i = 0, _a = tempState["$saI"]; _i < _a.length; _i++) {
+                    var property = _a[_i];
+                    setProperty.push(new eui.AddItems(property["target"], property["property"], property["position"], property["relativeTo"]));
+                }
+            }
+            if (tempState["$ssP"]) {
+                for (var _b = 0, _c = tempState["$ssP"]; _b < _c.length; _b++) {
+                    var property = _c[_b];
+                    if (property["name"]) {
+                        var value = property["value"];
+                        if (property["name"] == "scale9Grid") {
+                            value = this.getScale9Grid(property["value"]);
+                        }
+                        setProperty.push(new eui.SetProperty(property["target"], property["name"], value));
+                    }
+                    else {
+                        setProperty.push(new eui.SetStateProperty(this.target, property["templates"], property["chainIndex"], this.target[property["target"]], property["property"]));
+                    }
+                }
+            }
+            states.push(new eui.State(state, setProperty));
+        }
+        this.target["states"] = states;
+    };
+    JSONParseClass.prototype.applyBinding = function () {
+        if (this.skinClass["$b"] == undefined)
+            return;
+        for (var _i = 0, _a = this.skinClass["$b"]; _i < _a.length; _i++) {
+            var bindingDate = _a[_i];
+            if (bindingDate["$bc"] !== undefined) {
+                eui.Binding.$bindProperties(this.target, bindingDate["$bd"], bindingDate["$bc"], this.target[bindingDate["$bt"]], bindingDate["$bp"]);
+            }
+            else {
+                eui.Binding.bindProperty(this.target, bindingDate["$bd"][0].split("."), this.target[bindingDate["$bt"]], bindingDate["$bp"]);
+            }
+        }
+    };
+    JSONParseClass.prototype.createDataProvider = function (component) {
+        if (component == "")
+            return undefined;
+        var result = this.createTypeObject(component);
+        var source = [];
+        for (var _i = 0, _a = this.skinClass[component]["source"]; _i < _a.length; _i++) {
+            var sour = _a[_i];
+            source.push(this.createItemRender(sour));
+        }
+        result["source"] = source;
+        return result;
+    };
+    JSONParseClass.prototype.createItemRender = function (itemName) {
+        var result = this.createTypeObject(itemName);
+        for (var property in this.skinClass[itemName]) {
+            if (property != "$t") {
+                result[property] = this.skinClass[itemName][property];
+            }
+        }
+        return result;
+    };
+    JSONParseClass.prototype.getNormalizeEuiName = function (str) {
+        return this.euiNormalizeNames[str] ? this.euiNormalizeNames[str] : str;
+    };
+    JSONParseClass.prototype.createTypeObject = function (component) {
+        var typestr = this.getNormalizeEuiName(this.skinClass[component].$t);
+        var type = egret.getDefinitionByName(typestr);
+        return new type();
+    };
+    JSONParseClass.prototype.getScale9Grid = function (data) {
+        var datalist = data.split(",");
+        return new egret.Rectangle(parseFloat(datalist[0]), parseFloat(datalist[1]), parseFloat(datalist[2]), parseFloat(datalist[3]));
+    };
+    return JSONParseClass;
+}());
+window["JSONParseClass"] = new JSONParseClass();
+window.generateEUI2 = window.generateEUI2||{};
+                generateEUI2.paths = generateEUI2.paths||{};
+                generateEUI2.styles = undefined;
+                generateEUI2.skins = {"DropDown":"resource/eui_skins/dropdown/DropDownSkin.exml","ActorName":"resource/eui_skins/ActorNameSkin.exml","EncounterInfoItem":"resource/skins/zaoYu/ZaoYuInfoItemSkin.exml","FBChallengePanel":"resource/skins/fb/ChallengeFbSkin.exml","FbItem":"resource/skins/fb/DailyFbItemSkin.exml","GuanQiaEfficiencyPanel":"resource/skins/checkReward/CheckInfoSkin.exml","GuanQiaRewardPanel":"resource/skins/checkReward/GuanqiajiangliSkin.exml","ItemBase":"resource/skins/bag/ItemSkin.exml","ItemIcon":"resource/skins/bag/ItemIconSkin.exml","JingMaiPanel":"resource/skins/jinmai/JinMaiSkin.exml","LadderStarListView":"resource/skins/competition/LadderSratListSkin.exml","LadderStarView":"resource/skins/competition/LadderSratSkin.exml","PriceIcon":"resource/eui_skins/PriceIconSkin.exml","RoleInfoItem":"resource/skins/roleWin/RoleInfoItemSkin.exml","RoleInfoPanel":"resource/skins/roleWin/RoleInfoSkin.exml","RoleItem":"resource/skins/bag/ItemSkin.exml","RoleSelectPanel":"resource/skins/roleWin/RoleSelectPanelSkin.exml","SkillPanel":"resource/skins/skill/SkillSkin.exml","WingPanel":"resource/skins/wing/WingSkin.exml","ZhuZaiEquipGrowPanel":"resource/skins/zhuzai/ZhuzaiEquipPromoteSkin.exml","ZhuZaiFenjiePanel":"resource/skins/zhuzai/ZhuzaiEquipDecomSkin.exml","ZhuzaiEquipAdvancePanel":"resource/skins/zhuzai/ZhuzaiEquipAdvanceSkin.exml","ZsPanel":"resource/skins/zs/ZsPanelSkin.exml","eui.Button":"resource/eui_skins/ButtonSkin.exml","eui.CheckBox":"resource/eui_skins/CheckBoxSkin.exml","eui.HScrollBar":"resource/eui_skins/HScrollBarSkin.exml","eui.HSlider":"resource/eui_skins/HSliderSkin.exml","eui.ItemRenderer":"resource/eui_skins/ItemRendererSkin.exml","eui.Panel":"resource/eui_skins/PanelSkin.exml","eui.ProgressBar":"resource/eui_skins/ProgressBarSkin.exml","eui.RadioButton":"resource/eui_skins/RadioButtonSkin.exml","eui.Scroller":"resource/eui_skins/ScrollerSkin.exml","eui.TextInput":"resource/eui_skins/TextInputSkin.exml","eui.ToggleSwitch":"resource/eui_skins/ToggleSwitchSkin.exml","eui.VScrollBar":"resource/eui_skins/VScrollBarSkin.exml","eui.VSlider":"resource/eui_skins/VSliderSkin.exml","CommonWindowBg":"resource/eui_skins/CommonWindowBgSkin.exml","PowerLabel":"resource/eui_skins/PowerLabelSkin.exml","CircleRunView":"resource/skins/forge/CircleRunSkin.exml","CommonDialog":"resource/eui_skins/CommonDialogSkin.exml","StarList":"resource/eui_skins/StarListSkin.exml","AttrLabel":"resource/eui_skins/AttrLabelSkin.exml","ConsumeLabel":"resource/eui_skins/ConsumeLabelSkin.exml","SimpleRankPanel":"resource/eui_skins/SimpleRankPanelSkin.exml","RoleShowPanel":"resource/eui_skins/RoleShowPanelSkin.exml","GetwayLabel":"resource/eui_skins/GetwayLabelSkin.exml","LadderLevelIcon":"resource/skins/competition/LadderLevelIconSkin.exml"};
